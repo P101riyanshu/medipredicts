@@ -8,16 +8,26 @@ const fallbackSymptoms = [
 let allSymptoms = [];
 let selected = new Set();
 
-function setStatus(message, error = false) {
-  const status = document.getElementById("status");
-  status.textContent = message;
-  status.className = `status-text ${error ? "text-danger" : ""}`;
+function setActiveNav() {
+  const current = location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".nav-link").forEach((a) => {
+    if (a.getAttribute("href") === current) {
+      a.classList.add("active");
+    }
+  });
 }
 
 async function fetchJson(path) {
   const res = await fetch(`${API_BASE}${path}`);
   if (!res.ok) throw new Error(`Failed to fetch ${path}`);
   return res.json();
+}
+
+function setStatus(message, error = false) {
+  const status = document.getElementById("status");
+  if (!status) return;
+  status.textContent = message;
+  status.className = `status-text ${error ? "text-danger" : ""}`;
 }
 
 function symptomChip(symptom) {
@@ -27,6 +37,7 @@ function symptomChip(symptom) {
 
 function renderSymptoms(list) {
   const el = document.getElementById("symptoms-container");
+  if (!el) return;
   el.innerHTML = list.map(symptomChip).join("");
 
   document.querySelectorAll(".symptom-check").forEach((node) => {
@@ -66,6 +77,7 @@ function predictionCard(p) {
 
 function renderResults(data) {
   const results = document.getElementById("results");
+  if (!results) return;
   const predictionHtml = (data.predictions || []).map(predictionCard).join("");
   const important = (data.important_symptoms || [])
     .map((symptom) => `<span class="tag">${symptom.replaceAll("_", " ")}</span>`)
@@ -81,11 +93,13 @@ function renderResults(data) {
 
 function renderModelInfo(info) {
   const container = document.getElementById("model-info");
+  if (!container) return;
+
   const metricRows = Object.entries(info.metrics || {})
     .map(([name, m]) => `<tr><td>${name}</td><td>${(m.accuracy * 100).toFixed(1)}%</td><td>${(m.f1_score * 100).toFixed(1)}%</td></tr>`)
     .join("");
 
-  const topSymptoms = (info.top_global_symptoms || []).slice(0, 6)
+  const topSymptoms = (info.top_global_symptoms || []).slice(0, 8)
     .map((x) => `<span class="tag">${x.symptom.replaceAll("_", " ")}</span>`)
     .join("");
 
@@ -100,6 +114,24 @@ function renderModelInfo(info) {
     <div class="small"><strong>Top Global Symptoms:</strong></div>
     <div class="tag-wrap mt-1">${topSymptoms}</div>
   `;
+}
+
+async function renderHealthInfo() {
+  const healthEl = document.getElementById("health-info");
+  if (!healthEl) return;
+  try {
+    const health = await fetchJson("/health");
+    healthEl.innerHTML = `
+      <ul class="mb-0 text-secondary">
+        <li>Status: <strong>${health.status}</strong></li>
+        <li>Best Model: <strong>${health.best_model}</strong></li>
+        <li>Disease Classes: <strong>${health.num_diseases}</strong></li>
+        <li>Symptoms Supported: <strong>${health.num_symptoms}</strong></li>
+      </ul>
+    `;
+  } catch {
+    healthEl.textContent = "Health information unavailable.";
+  }
 }
 
 async function onPredict() {
@@ -118,7 +150,7 @@ async function onPredict() {
   try {
     validateInput(payload);
     setStatus("Running prediction...");
-    button.disabled = true;
+    if (button) button.disabled = true;
 
     const res = await fetch(`${API_BASE}/predict`, {
       method: "POST",
@@ -133,11 +165,13 @@ async function onPredict() {
   } catch (err) {
     setStatus(err.message, true);
   } finally {
-    button.disabled = false;
+    if (button) button.disabled = false;
   }
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
+async function initPredictPage() {
+  if (!document.getElementById("predict-btn")) return;
+
   try {
     const metadata = await fetchJson("/metadata");
     allSymptoms = metadata.symptoms || fallbackSymptoms;
@@ -146,14 +180,25 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 
   renderSymptoms(allSymptoms);
+  document.getElementById("predict-btn").addEventListener("click", onPredict);
+  document.getElementById("symptom-search").addEventListener("input", (e) => filterSymptoms(e.target.value));
+}
+
+async function initModelPage() {
+  if (!document.getElementById("model-info")) return;
 
   try {
     const info = await fetchJson("/model-info");
     renderModelInfo(info);
   } catch {
-    document.getElementById("model-info").textContent = "Model info unavailable until backend/model.pkl is generated.";
+    document.getElementById("model-info").textContent = "Model insights unavailable until backend/model.pkl is generated.";
   }
 
-  document.getElementById("predict-btn").addEventListener("click", onPredict);
-  document.getElementById("symptom-search").addEventListener("input", (e) => filterSymptoms(e.target.value));
+  await renderHealthInfo();
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  setActiveNav();
+  await initPredictPage();
+  await initModelPage();
 });

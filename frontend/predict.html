@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CDSS | Prediction</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark app-nav">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">CDSS Project</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="predict.html">Prediction</a></li>
+          <li class="nav-item"><a class="nav-link" href="model.html">Model Insights</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Project</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4 py-lg-5">
+    <div class="row g-4">
+      <section class="col-xl-7">
+        <div class="card shadow-sm h-100 border-0 app-card">
+          <div class="card-body p-4">
+            <h3 class="section-title">Patient Case Input</h3>
+            <div class="row g-3">
+              <div class="col-md-4"><label for="age" class="form-label">Age</label><input id="age" type="number" class="form-control" min="1" max="100" value="32" /></div>
+              <div class="col-md-4"><label for="gender" class="form-label">Gender</label><select id="gender" class="form-select"><option value="female">Female</option><option value="male">Male</option></select></div>
+              <div class="col-md-4"><label for="duration" class="form-label">Duration (days)</label><input id="duration" type="number" class="form-control" min="1" max="60" value="3" /></div>
+            </div>
+            <div class="mt-3">
+              <label for="symptom-search" class="form-label">Symptoms</label>
+              <input id="symptom-search" class="form-control mb-2" type="text" placeholder="Search symptoms..." />
+              <div id="symptoms-container" class="symptoms-grid"></div>
+            </div>
+            <div class="mt-3 d-flex gap-4">
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="smoking" /><label class="form-check-label" for="smoking">Smoking</label></div>
+              <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="alcohol" /><label class="form-check-label" for="alcohol">Alcohol</label></div>
+            </div>
+            <button id="predict-btn" class="btn btn-primary mt-4 w-100 btn-lg">Run Prediction</button>
+          </div>
+        </div>
+      </section>
+      <section class="col-xl-5">
+        <div class="card shadow-sm border-0 app-card mb-4">
+          <div class="card-body p-4">
+            <h3 class="section-title">Prediction Results</h3>
+            <p id="status" class="status-text">Ready.</p>
+            <div id="results"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

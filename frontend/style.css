@@ -13,6 +13,26 @@ body {
   font-family: "Inter", "Segoe UI", sans-serif;
 }
 
+.app-nav {
+  background: linear-gradient(90deg, #17316f 0%, #244ca9 100%);
+}
+
+.navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+  color: #fff;
+  font-weight: 600;
+}
+
+.hero-card {
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(21, 40, 79, 0.08);
+}
+
 .hero h1 {
   font-size: clamp(1.5rem, 2.8vw, 2.2rem);
 }
@@ -29,8 +49,10 @@ body {
   color: var(--muted);
 }
 
-.app-card {
+.app-card,
+.feature-card {
   border-radius: 16px;
+  border: 1px solid var(--border);
 }
 
 .section-title {

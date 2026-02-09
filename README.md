@@ -5,7 +5,7 @@ A complete **final-year project style** implementation with:
 - multi-model ML training and comparison,
 - explainable predictions,
 - FastAPI backend,
-- interactive frontend dashboard.
+- interactive multi-page frontend dashboard with navigation bar.
 
 ---
 
@@ -67,12 +67,16 @@ A complete **final-year project style** implementation with:
 - `GET /model-info` → model comparison metrics + top global symptoms.
 - `POST /predict` → top-3 diseases with confidence + important symptoms.
 
-### 5) Frontend Dashboard
-- Professional two-column web UI.
-- Searchable symptom selector.
+### 5) Frontend Dashboard (Multi-Page Website)
+- Navigation bar based multi-page UI:
+  - `index.html` (Home)
+  - `predict.html` (Prediction workflow)
+  - `model.html` (Model insights)
+  - `about.html` (Project summary)
+- Searchable symptom selector with persistent selection on prediction page.
 - Input validation and request status handling.
 - Confidence bar visualization for top-3 predictions.
-- Important symptom tags + model performance table.
+- Model metrics table + global symptom tags on Model Insights page.
 
 ---
 
@@ -111,7 +115,10 @@ python -m http.server 5500
 ```
 
 ### Step 7: Open app
-- Frontend: `http://localhost:5500`
+- Frontend Home: `http://localhost:5500/index.html`
+- Prediction Page: `http://localhost:5500/predict.html`
+- Model Insights Page: `http://localhost:5500/model.html`
+- About Page: `http://localhost:5500/about.html`
 - API docs: `http://localhost:8000/docs`
 
 ---
