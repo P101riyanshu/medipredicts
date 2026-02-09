@@ -1,0 +1,148 @@
+:root {
+  --bg: #f4f7fc;
+  --card: #ffffff;
+  --text: #13233a;
+  --muted: #5f7088;
+  --primary: #3c67f5;
+  --primary-soft: #e6ecff;
+  --border: #dbe4f0;
+  --success: #16a34a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, sans-serif;
+}
+
+.hero {
+  padding-top: 2.2rem;
+  padding-bottom: 1.4rem;
+}
+
+.eyebrow {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.4rem;
+  font-size: 0.78rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  margin-bottom: 0.4rem;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.app-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 8px 26px rgba(18, 33, 62, 0.08);
+  background: var(--card);
+}
+
+.section-title {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.symptoms-grid {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+  background: #fcfdff;
+}
+
+.symptom-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px;
+  margin: 4px;
+  font-size: 0.9rem;
+}
+
+.status-text {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.prediction-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fcfeff;
+}
+
+.prediction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.prediction-score {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.progress {
+  height: 10px;
+  border-radius: 10px;
+  background-color: var(--primary-soft);
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #4f77ff 0%, #3457d5 100%);
+}
+
+.important-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tag {
+  border-radius: 999px;
+  background: #eefbf3;
+  color: var(--success);
+  border: 1px solid #d5f2e0;
+  padding: 3px 10px;
+  font-size: 0.85rem;
+}
+
+.info-box {
+  border: 1px dashed #bfd0e6;
+  border-radius: 10px;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.info-box ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .hero {
+    padding-bottom: 0.6rem;
+  }
+}
