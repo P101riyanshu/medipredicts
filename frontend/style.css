@@ -1,0 +1,108 @@
+:root {
+  --bg: #f2f6fb;
+  --card: #ffffff;
+  --text: #1b2741;
+  --muted: #5f6f8b;
+  --primary: #2f67f6;
+  --border: #dde5f1;
+}
+
+body {
+  background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.hero h1 {
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary);
+  letter-spacing: 0.08em;
+}
+
+.subtitle {
+  color: var(--muted);
+}
+
+.app-card {
+  border-radius: 16px;
+}
+
+.section-title {
+  font-size: 1.05rem;
+  margin-bottom: 0.9rem;
+}
+
+.symptoms-grid {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 180px;
+  max-height: 280px;
+  overflow-y: auto;
+  background-color: #fbfdff;
+}
+
+.symptom-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 4px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  font-size: 0.88rem;
+}
+
+.status-text {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.prediction-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 8px;
+  background: #fcfdff;
+}
+
+.score {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.progress {
+  height: 10px;
+  border-radius: 10px;
+  background-color: #e9efff;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #5383ff 0%, #2f67f6 100%);
+}
+
+.tag-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  font-size: 0.8rem;
+  border-radius: 999px;
+  padding: 3px 9px;
+  border: 1px solid #d4e4ff;
+  background-color: #eef4ff;
+  color: #1f50c9;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.45rem;
+}

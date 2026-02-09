@@ -1,0 +1,18 @@
+{
+  "selected_encoded_features": [
+    "symptom_fever",
+    "symptom_cough",
+    "symptom_headache",
+    "symptom_fatigue",
+    "symptom_shortness_of_breath",
+    "symptom_diarrhea",
+    "symptom_nausea",
+    "age",
+    "symptom_duration",
+    "smoking",
+    "alcohol",
+    "gender_female",
+    "gender_male"
+  ],
+  "num_rows": 1200
+}
