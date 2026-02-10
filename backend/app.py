@@ -29,7 +29,7 @@ class PredictRequest(BaseModel):
         return value
 
 
-app = FastAPI(title="Clinical Decision Support API", version="1.0.0")
+app = FastAPI(title="Clinical Decision Support API", version="1.1.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -41,7 +41,7 @@ app.add_middleware(
 MODEL_BUNDLE = None
 
 
-def load_model():
+def load_model() -> None:
     global MODEL_BUNDLE
     model_path = Path(__file__).resolve().parent / "model.pkl"
     if not model_path.exists():
@@ -51,7 +51,7 @@ def load_model():
 
 
 @app.on_event("startup")
-def startup_event():
+def startup_event() -> None:
     load_model()
 
 
@@ -65,6 +65,25 @@ def metadata():
     return {
         "symptoms": MODEL_BUNDLE["symptoms"],
         "diseases": MODEL_BUNDLE["classes"],
+        "feature_columns": MODEL_BUNDLE["feature_columns"],
+    }
+
+
+@app.get("/metrics")
+def metrics():
+    return {
+        "best_model": MODEL_BUNDLE["best_model_name"],
+        "results": MODEL_BUNDLE.get("metrics", {}),
+    }
+
+
+@app.get("/importance")
+def importance(limit: int = 10):
+    symptom_importance = MODEL_BUNDLE.get("symptom_importance", {})
+    ranked = sorted(symptom_importance.items(), key=lambda item: item[1], reverse=True)
+    ranked = ranked[: max(1, min(limit, len(ranked)))]
+    return {
+        "top_symptoms": [{"symptom": symptom, "importance": round(float(score), 6)} for symptom, score in ranked]
     }
 
 
@@ -92,16 +111,14 @@ def predict(payload: PredictRequest):
         frame = frame.reindex(columns=MODEL_BUNDLE["feature_columns"], fill_value=0)
 
         probabilities = model.predict_proba(frame)[0]
-        labels = model.classes_
+        encoded_labels = model.classes_
+        label_encoder = MODEL_BUNDLE.get("label_encoder")
+        labels = label_encoder.inverse_transform(encoded_labels) if label_encoder is not None else encoded_labels
         ranking = sorted(zip(labels, probabilities), key=lambda x: x[1], reverse=True)[:3]
 
         global_imp = MODEL_BUNDLE.get("symptom_importance", {})
         present_symptoms = [s for s in payload.symptoms if s in global_imp]
-        important_symptoms = sorted(
-            present_symptoms,
-            key=lambda s: global_imp.get(s, 0),
-            reverse=True,
-        )[:3]
+        important_symptoms = sorted(present_symptoms, key=lambda s: global_imp.get(s, 0), reverse=True)[:3]
 
         if len(important_symptoms) < 3:
             fill = sorted(global_imp.keys(), key=lambda s: global_imp[s], reverse=True)
@@ -112,10 +129,7 @@ def predict(payload: PredictRequest):
                     break
 
         return {
-            "predictions": [
-                {"disease": disease, "confidence": round(float(score), 4)}
-                for disease, score in ranking
-            ],
+            "predictions": [{"disease": disease, "confidence": round(float(score), 4)} for disease, score in ranking],
             "important_symptoms": important_symptoms,
         }
     except HTTPException:

@@ -9,10 +9,6 @@
   --success: #16a34a;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
   background: linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
@@ -20,28 +16,20 @@ body {
   font-family: Inter, "Segoe UI", Roboto, sans-serif;
 }
 
-.hero {
-  padding-top: 2.2rem;
-  padding-bottom: 1.4rem;
+.page-wrap {
+  padding: 1.5rem 0 2.5rem;
 }
 
-.eyebrow {
+.navbar-brand {
   font-weight: 700;
-  text-transform: uppercase;
-  color: var(--primary);
-  letter-spacing: 0.05em;
-  margin-bottom: 0.4rem;
-  font-size: 0.78rem;
 }
 
-.hero h1 {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  margin-bottom: 0.4rem;
+.page-header {
+  margin-bottom: 1.2rem;
 }
 
-.subtitle {
+.page-header p {
   color: var(--muted);
-  margin-bottom: 0;
 }
 
 .app-card {
@@ -49,11 +37,6 @@ body {
   border-radius: 16px;
   box-shadow: 0 8px 26px rgba(18, 33, 62, 0.08);
   background: var(--card);
-}
-
-.section-title {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
 }
 
 .symptoms-grid {
@@ -75,11 +58,6 @@ body {
   padding: 5px 12px;
   margin: 4px;
   font-size: 0.9rem;
-}
-
-.status-text {
-  font-weight: 500;
-  color: var(--muted);
 }
 
 .prediction-card {
@@ -128,21 +106,20 @@ body {
   font-size: 0.85rem;
 }
 
-.info-box {
-  border: 1px dashed #bfd0e6;
+.kpi {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+
+.api-response {
+  min-height: 180px;
+  background: #0b1020;
+  color: #d6e1ff;
   border-radius: 10px;
   padding: 12px;
-  color: var(--muted);
-  font-size: 0.92rem;
-}
-
-.info-box ul {
-  padding-left: 1.1rem;
-  margin-bottom: 0;
-}
-
-@media (max-width: 992px) {
-  .hero {
-    padding-bottom: 0.6rem;
-  }
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  overflow: auto;
 }
