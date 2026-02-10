@@ -8,6 +8,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -62,6 +63,8 @@ def main() -> None:
     df = pd.read_csv(data_path)
     X = df.drop(columns=["disease"])
     y = df["disease"]
+    label_encoder = LabelEncoder()
+    y_encoded = label_encoder.fit_transform(y)
 
     categorical = ["gender"]
     numeric = [c for c in X.columns if c != "gender"]
@@ -74,7 +77,7 @@ def main() -> None:
     )
 
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
+        X, y_encoded, test_size=0.2, random_state=42, stratify=y_encoded
     )
 
     models = build_models()
@@ -117,8 +120,9 @@ def main() -> None:
         "model": best_pipeline,
         "best_model_name": best_model_name,
         "metrics": results,
-        "classes": sorted(y.unique().tolist()),
-        "symptoms": [c.replace("symptom_", "") for c in X.columns if c.startswith("symptom_")],
+        "classes": label_encoder.classes_.tolist(),
+        "label_encoder": label_encoder,
+        "symptoms": [c.replace("symptom_", "") for c in X.columns if c.startswith("symptom_") and c != "symptom_duration"],
         "symptom_importance": symptom_importance,
         "feature_columns": X.columns.tolist(),
     }

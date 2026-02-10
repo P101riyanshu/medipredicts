@@ -3,96 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clinical Decision Support System</title>
+  <title>CDSS | Smart Prediction</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <header class="hero container">
-      <div class="hero-content">
-        <p class="eyebrow">Machine Learning Enabled</p>
-        <h1>Clinical Decision Support System</h1>
-        <p class="subtitle">Enter patient symptoms and profile to get top-3 probable diseases with confidence and explainability signals.</p>
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">CDSS ML</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Predict</a></li>
+          <li class="nav-item"><a class="nav-link" href="models.html">Model Hub</a></li>
+          <li class="nav-item"><a class="nav-link" href="symptoms.html">XAI Symptoms</a></li>
+          <li class="nav-item"><a class="nav-link" href="api-playground.html">API Lab</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        </ul>
       </div>
-    </header>
+    </div>
+  </nav>
 
-    <main class="container pb-5">
-      <div class="row g-4">
-        <section class="col-lg-7">
-          <div class="card app-card h-100">
-            <div class="card-body p-4">
-              <h2 class="section-title">Patient Inputs</h2>
+  <main class="container page-wrap">
+    <section class="hero-banner mb-3">
+      <p class="mb-1 text-primary fw-semibold">Final Year Project Implementation</p>
+      <h1 class="h3 mb-1">Clinical Decision Support System for Disease Prediction</h1>
+      <p class="mb-0">Enter patient profile + symptoms and get top-3 disease predictions with confidence and explainability insights.</p>
+    </section>
 
-              <div class="row g-3">
-                <div class="col-md-4">
-                  <label for="age" class="form-label">Age</label>
-                  <input id="age" type="number" class="form-control" min="1" max="100" value="28" />
-                </div>
-                <div class="col-md-4">
-                  <label for="gender" class="form-label">Gender</label>
-                  <select id="gender" class="form-select">
-                    <option value="female">Female</option>
-                    <option value="male">Male</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label for="duration" class="form-label">Symptom Duration (days)</label>
-                  <input id="duration" type="number" class="form-control" min="1" max="60" value="3" />
-                </div>
-              </div>
-
-              <div class="mt-4">
-                <label for="symptom-search" class="form-label">Symptoms</label>
-                <input id="symptom-search" class="form-control mb-2" type="text" placeholder="Search symptoms..." />
-                <div id="symptoms-container" class="symptoms-grid"></div>
-                <small class="text-secondary">Select all symptoms currently reported by the patient.</small>
-              </div>
-
-              <div class="mt-4">
-                <label class="form-label d-block">Lifestyle</label>
-                <div class="d-flex gap-4">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="smoking" />
-                    <label class="form-check-label" for="smoking">Smoking</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="alcohol" />
-                    <label class="form-check-label" for="alcohol">Alcohol</label>
-                  </div>
-                </div>
-              </div>
-
-              <button id="predict-btn" class="btn btn-primary btn-lg mt-4 w-100">
-                Predict Top 3 Diseases
-              </button>
+    <div class="row g-4">
+      <section class="col-lg-8">
+        <div class="card app-card"><div class="card-body p-4">
+          <h2 class="section-title">Patient Case Input</h2>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Age</label>
+              <input id="age" type="number" class="form-control" value="28" min="1" max="100">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Gender</label>
+              <select id="gender" class="form-select"><option value="female">Female</option><option value="male">Male</option></select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Symptom Duration (days)</label>
+              <input id="duration" type="number" class="form-control" value="2" min="1" max="60">
             </div>
           </div>
-        </section>
 
-        <section class="col-lg-5">
-          <div class="card app-card h-100">
-            <div class="card-body p-4">
-              <h2 class="section-title">Prediction Output</h2>
+          <label class="form-label mt-3">Search and Select Symptoms</label>
+          <input id="symptom-search" class="form-control" placeholder="Search symptoms like fever, cough, headache...">
+          <div id="symptoms-container" class="symptoms-grid mt-2"></div>
 
-              <div id="status" class="status-text">Ready for prediction.</div>
-              <div id="results" class="mt-3"></div>
-
-              <div class="info-box mt-4">
-                <h6>How to interpret</h6>
-                <ul>
-                  <li>Confidence values are model probabilities.</li>
-                  <li>Important symptoms show strongest contributors.</li>
-                  <li>Use this tool as decision support, not diagnosis.</li>
-                </ul>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="smoking">
+                <label class="form-check-label" for="smoking">Smoking</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="alcohol">
+                <label class="form-check-label" for="alcohol">Alcohol</label>
               </div>
             </div>
           </div>
-        </section>
-      </div>
-    </main>
-  </div>
 
+          <div class="d-flex gap-2 mt-4">
+            <button id="predict-btn" class="btn btn-primary btn-lg flex-fill">Run Clinical Prediction</button>
+            <button id="clear-btn" class="btn btn-outline-secondary">Clear</button>
+          </div>
+        </div></div>
+      </section>
+
+      <section class="col-lg-4">
+        <div class="card app-card h-100"><div class="card-body p-4">
+          <h2 class="section-title">Prediction Report</h2>
+          <div id="status" class="text-secondary">Ready.</div>
+          <div id="results" class="mt-3"></div>
+          <hr>
+          <small class="footer-note">Decision-support tool for educational use. Not a substitute for professional medical diagnosis.</small>
+        </div></div>
+      </section>
+    </div>
+
+    <section class="card app-card mt-4">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h2 class="section-title mb-0">Recent Prediction Cases</h2>
+          <button id="clear-history-btn" class="btn btn-sm btn-outline-danger">Clear History</button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle" id="history-table">
+            <thead class="table-light">
+              <tr><th>Time</th><th>Age/Gender</th><th>Top Prediction</th><th>Confidence</th><th>Symptoms</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
