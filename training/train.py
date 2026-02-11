@@ -122,7 +122,7 @@ def main() -> None:
         "metrics": results,
         "classes": label_encoder.classes_.tolist(),
         "label_encoder": label_encoder,
-        "symptoms": [c.replace("symptom_", "") for c in X.columns if c.startswith("symptom_")],
+        "symptoms": [c.replace("symptom_", "") for c in X.columns if c.startswith("symptom_") and c != "symptom_duration"],
         "symptom_importance": symptom_importance,
         "feature_columns": X.columns.tolist(),
     }
